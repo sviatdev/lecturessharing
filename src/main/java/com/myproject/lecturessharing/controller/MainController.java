@@ -1,4 +1,4 @@
-package com.myproject.lecturessharing;
+package com.myproject.lecturessharing.controller;
 import com.myproject.lecturessharing.domain.Message;
 import com.myproject.lecturessharing.repos.MessageRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,26 +11,23 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class GreetingsController {
+public class MainController {
     @Autowired
     private MessageRepo messageRepo;
 
-    @GetMapping("/greeting")
-    public String greeting(
-            @RequestParam(name = "name", required = false, defaultValue="World") String name,
-            Map<String, Object> model){
-        model.put("name", name);
+    @GetMapping("/")
+    public String greeting(Map<String, Object> model){
         return "greeting";
     }
 
-    @GetMapping
+    @GetMapping("/mainpage")
     public String mainPage(Map<String, Object> model){
         Iterable<Message> messages = messageRepo.findAll();
         model.put("messages", messages);
         return "mainpage";
     }
 
-    @PostMapping
+    @PostMapping("/mainpage")
     public String add(@RequestParam String text, @RequestParam String tag, Map<String, Object> model){
         Message message = new Message(text, tag);
         messageRepo.save(message);
